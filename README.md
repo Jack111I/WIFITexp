@@ -1,3 +1,5 @@
+<img width="734" height="241" alt="Untitled-6 (7)" src="https://github.com/user-attachments/assets/7d377551-2007-4083-b4d8-d1d6ac8b13a5" />
+
 <div align="center">
 
 # 📡 WIFITexp
@@ -11,7 +13,7 @@
 
 *A powerful, real-time WiFi network monitoring tool that exposes detailed network information, connected devices, and security vulnerabilities with a beautiful web interface.*
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Screenshots](#-screenshots) • [Tech Stack](#-tech-stack) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Screenshots](#-screenshots) • [Contributing](#-contributing)
 
 ---
 
@@ -355,7 +357,7 @@ Contributions are welcome! Here's how you can help:
 ### Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/WIFITexp.git
+git clone https://github.com/Jack111I/WIFITexp.git
 cd WIFITexp
 
 # Create virtual environment
@@ -418,8 +420,6 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ---
 
-## 📊 Stats
-
 
 ---
 
@@ -440,8 +440,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 <div align="center">
 
-**Remember**: *With great power comes great responsibility.*  
-Use this tool ethically and legally.
+**Remember**: There's nothing can't be exposed in that world and there's no privacy at all. So, be safe be updated.
 
 © 2025 WIFITexp. All rights reserved.
 
