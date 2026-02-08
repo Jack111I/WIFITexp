@@ -165,16 +165,18 @@ GET http://localhost:5000/api/status
 ## 📸 Screenshots
 
 ### Main Dashboard
-*Real-time network monitoring with live device tracking*
+<img width="734" height="241" alt="Untitled-6 (3)" src="https://github.com/user-attachments/assets/2d0dc4bb-0ce6-4dfc-b7c9-f1f66368db3b" />
+
 
 ### Network Analysis
-*Detailed breakdown of your network configuration and security*
+<img width="734" height="241" alt="Untitled-6 (4)" src="https://github.com/user-attachments/assets/b7f7cc1f-5550-4968-81aa-9d2092e87b6f" />
 
-### Channel Heatmap
-*Visual representation of WiFi channel congestion*
+<img width="734" height="241" alt="Untitled-6 (6)" src="https://github.com/user-attachments/assets/0b91c1b8-2f35-4df7-9d9e-8d68e775cd41" />
+
 
 ### Nearby Networks
-*Comprehensive view of surrounding WiFi networks with risk assessment*
+<img width="734" height="241" alt="Untitled-6 (5)" src="https://github.com/user-attachments/assets/61ba26e8-bed5-43b0-9dbd-545bbd112f49" />
+
 
 ---
 
@@ -250,27 +252,7 @@ GET http://localhost:5000/api/status
 
 ---
 
-## 🎨 UI/UX Design
-
-### Color Scheme
-- **Primary**: Cyberpunk gradient (`#00ff88` → `#00d4ff`)
-- **Background**: Deep space gradient (`#0f0c29` → `#302b63` → `#24243e`)
-- **Accents**: Neon green (`#00ff88`), Electric blue (`#00d4ff`)
-- **Alerts**: Green (secure), Yellow (warning), Red (danger)
-
-### Animations
-- **Pulse Effect**: Live status indicators
-- **Hover States**: Interactive element feedback
-- **Smooth Transitions**: 0.3s ease for all state changes
-- **Loading States**: Skeleton screens during scans
-
-### Responsive Design
-- **Desktop First**: Optimized for 1920x1080+
-- **Tablet Support**: Flexible grid layouts
-- **Mobile Compatible**: Horizontal scroll for tables
-- **Breakpoints**: 768px for mobile adaptation
-
----
+## BUHAHHAHAHAHHAHHHAHAAAA 
 
 ## 🔧 Configuration
 
@@ -354,7 +336,7 @@ pip install --force-reinstall -r requirements.txt
 Contributions are welcome! Here's how you can help:
 
 ### Reporting Bugs
-- Use the [GitHub Issues](https://github.com/yourusername/WIFITexp/issues) page
+- Use the [GitHub Issues](https://github.com/Jack111i/WIFITexp/issues) page
 - Include OS version, Python version, and error messages
 - Provide steps to reproduce
 
@@ -386,28 +368,6 @@ pip install -r requirements.txt
 ```
 
 ---
-
-## 📝 Roadmap
-
-### Version 2.0 (Planned)
-- [ ] 5GHz band support
-- [ ] WiFi 6/6E detection
-- [ ] Export data to JSON/CSV
-- [ ] Historical data tracking
-- [ ] Network speed testing
-- [ ] Device manufacturer lookup
-- [ ] Custom alerting system
-- [ ] Multi-interface support
-
-### Version 3.0 (Future)
-- [ ] Database integration
-- [ ] User authentication
-- [ ] Mobile app companion
-- [ ] Docker containerization
-- [ ] Kubernetes deployment
-- [ ] Machine learning anomaly detection
-- [ ] Advanced packet analysis
-- [ ] Cloud sync capabilities
 
 ---
 
@@ -449,9 +409,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ## 📞 Support
 
 ### Get Help
-- 📖 [Documentation](https://github.com/yourusername/WIFITexp/wiki)
-- 💬 [Discussions](https://github.com/yourusername/WIFITexp/discussions)
-- 🐛 [Issue Tracker](https://github.com/yourusername/WIFITexp/issues)
+- 💬 Instagram: @x_sayo-26 call me there xp
 
 ### Stay Updated
 - ⭐ Star this repository
@@ -462,13 +420,6 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ## 📊 Stats
 
-<div align="center">
-
-![GitHub stars](https://img.shields.io/github/stars/yourusername/WIFITexp?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/WIFITexp?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/yourusername/WIFITexp?style=social)
-
-</div>
 
 ---
 
@@ -476,7 +427,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ### 🌟 If you found this useful, please star the repo! 🌟
 
-**Made with ❤️ by the WIFITexp Team**
+**Made with ❤️ by the SAYO**
 
 *Hack the Planet* 🌐🔓
 
@@ -484,12 +435,6 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ---
 
-## ⚡ Quick Links
-
-- [Download Latest Release](https://github.com/yourusername/WIFITexp/releases)
-- [View Documentation](https://github.com/yourusername/WIFITexp/wiki)
-- [Report a Bug](https://github.com/yourusername/WIFITexp/issues/new?template=bug_report.md)
-- [Request a Feature](https://github.com/yourusername/WIFITexp/issues/new?template=feature_request.md)
 
 ---
 
