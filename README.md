@@ -72,7 +72,7 @@ python --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/WIFITexp.git
+git clone https://github.com/Jack111I/WIFITexp.git
 cd WIFITexp
 
 # Install dependencies (only 2 packages!)
