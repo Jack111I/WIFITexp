@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIFITexp - WiFi Network Analyzer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #00ff88;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #00ff88;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .status-card {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-card h3 {
+            color: #00ff88;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .my-network {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #00ff88;
+            margin-bottom: 30px;
+        }
+
+        .network-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .network-name {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .security-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .secure {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .warning {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .danger {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            color: #aaa;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .devices-table {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .devices-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .devices-table th {
+            background: rgba(0, 255, 136, 0.2);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #00ff88;
+        }
+
+        .devices-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .devices-table tr:hover {
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .nearby-networks {
+            display: grid;
+            gap: 15px;
+        }
+
+        .network-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .network-card:hover {
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        .network-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .signal-strength {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .signal-bar {
+            width: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .signal-bar.active {
+            background: #00ff88;
+        }
+
+        .risk-level {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+        }
+
+        .risk-low {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .risk-medium {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+        }
+
+        .risk-high {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+        }
+
+        .heatmap {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .channel-graph {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 200px;
+            margin-top: 15px;
+        }
+
+        .channel-bar {
+            flex: 1;
+            background: linear-gradient(to top, #00ff88, #00d4ff);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .channel-bar:hover {
+            opacity: 0.8;
+        }
+
+        .channel-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+
+        .refresh-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .connection-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .connected {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .disconnected {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .devices-table {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📡 WIFITexp</h1>
+            <p class="subtitle">WiFi Network Analyzer & Security Monitor</p>
+            <span class="connection-status" id="connectionStatus">
+                <span class="pulse"></span> Connecting to server...
+            </span>
+        </header>
+
+        <div id="errorContainer"></div>
+
+        <div class="status-bar">
+            <div class="status-card">
+                <h3>Scanning Status</h3>
+                <div class="status-value" id="scanStatus">IDLE</div>
+            </div>
+            <div class="status-card">
+                <h3>Connected Devices</h3>
+                <div class="status-value" id="deviceCount">0</div>
+            </div>
+            <div class="status-card">
+                <h3>Nearby Networks</h3>
+                <div class="status-value" id="networkCount">0</div>
+            </div>
+            <div class="status-card">
+                <h3>Last Update</h3>
+                <div class="status-value" id="lastUpdate" style="font-size: 1.2em;">Never</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                🏠 Your Network
+                <button class="refresh-btn" id="refreshBtn" onclick="refreshData()">🔄 Refresh</button>
+            </div>
+            <div class="my-network">
+                <div class="network-header">
+                    <div class="network-name" id="myNetworkName">Loading...</div>
+                    <span class="security-badge secure" id="mySecurityBadge">Scanning...</span>
+                </div>
+
+                <div class="info-grid" id="myNetworkInfo">
+                    <div class="loading">Scanning network information...</div>
+                </div>
+
+                <h3 style="margin: 20px 0 10px 0; color: #00ff88;">📱 Connected Devices</h3>
+                <div class="devices-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Device Name</th>
+                                <th>IP Address</th>
+                                <th>MAC Address</th>
+                                <th>Connection Type</th>
+                                <th>Signal</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devicesTableBody">
+                            <tr>
+                                <td colspan="6" class="loading">Scanning for devices...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">📶 Nearby Networks</div>
+            <div class="nearby-networks" id="nearbyNetworks">
+                <div class="loading">Scanning nearby WiFi networks...</div>
+            </div>
+        </div>
+
+        <div class="heatmap">
+            <div class="section-title">📊 Channel Usage Heatmap</div>
+            <div class="channel-graph" id="channelGraph">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        let autoRefreshInterval = null;
+
+        function showError(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <strong>⚠️ Error:</strong> ${message}
+                </div>
+            `;
+        }
+
+        function clearError() {
+            document.getElementById('errorContainer').innerHTML = '';
+        }
+
+        function updateConnectionStatus(connected) {
+            const statusEl = document.getElementById('connectionStatus');
+            if (connected) {
+                statusEl.className = 'connection-status connected';
+                statusEl.innerHTML = '<span class="pulse"></span> Connected';
+            } else {
+                statusEl.className = 'connection-status disconnected';
+                statusEl.innerHTML = '⚠️ Server Offline';
+            }
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`${API_BASE}/api/data`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                updateConnectionStatus(true);
+                clearError();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                updateConnectionStatus(false);
+                showError('Cannot connect to server. Make sure wifitexp_server.py is running!');
+                return null;
+            }
+        }
+
+        async function refreshData() {
+            const btn = document.getElementById('refreshBtn');
+            btn.disabled = true;
+            btn.textContent = '🔄 Scanning...';
+            
+            document.getElementById('scanStatus').innerHTML = 'SCANNING <span class="pulse"></span>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/scan`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                updateDashboard(data);
+                clearError();
+            } catch (error) {
+                console.error('Error during scan:', error);
+                showError('Scan failed. Make sure you have proper permissions and the server is running.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔄 Refresh';
+                document.getElementById('scanStatus').textContent = 'READY';
+            }
+        }
+
+        function updateDashboard(data) {
+            if (!data) return;
+
+            // Update status cards
+            document.getElementById('deviceCount').textContent = data.connected_devices?.length || 0;
+            document.getElementById('networkCount').textContent = data.nearby_networks?.length || 0;
+            
+            if (data.last_update) {
+                const updateTime = new Date(data.last_update);
+                document.getElementById('lastUpdate').textContent = updateTime.toLocaleTimeString();
+            }
+
+            // Update my network info
+            if (data.my_network) {
+                const myNet = data.my_network;
+                document.getElementById('myNetworkName').textContent = myNet.ssid || 'Unknown Network';
+                
+                const securityBadge = document.getElementById('mySecurityBadge');
+                securityBadge.textContent = myNet.security || 'Unknown';
+                securityBadge.className = 'security-badge ' + 
+                    (myNet.security?.includes('WPA3') ? 'secure' : 
+                     myNet.security?.includes('WPA2') ? 'secure' : 'warning');
+
+                const infoGrid = document.getElementById('myNetworkInfo');
+                infoGrid.innerHTML = `
+                    <div class="info-item">
+                        <div class="info-label">BSSID (MAC)</div>
+                        <div class="info-value">${myNet.bssid || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Local IP</div>
+                        <div class="info-value">${myNet.ip || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Public IP</div>
+                        <div class="info-value">${myNet.publicIP || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">DNS Servers</div>
+                        <div class="info-value">${myNet.dns || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Gateway</div>
+                        <div class="info-value">${myNet.gateway || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Subnet Mask</div>
+                        <div class="info-value">${myNet.subnet || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Channel</div>
+                        <div class="info-value">${myNet.channel || 'N/A'} (${myNet.frequency || 'N/A'})</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Bandwidth</div>
+                        <div class="info-value">${myNet.bandwidth || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Encryption</div>
+                        <div class="info-value">${myNet.encryption || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Uptime</div>
+                        <div class="info-value">${myNet.uptime || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Firmware</div>
+                        <div class="info-value">${myNet.firmware || 'N/A'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Security Type</div>
+                        <div class="info-value">${myNet.security || 'N/A'}</div>
+                    </div>
+                `;
+            }
+
+            // Update connected devices
+            const devicesBody = document.getElementById('devicesTableBody');
+            if (data.connected_devices && data.connected_devices.length > 0) {
+                devicesBody.innerHTML = data.connected_devices.map(device => `
+                    <tr>
+                        <td>${device.name || 'Unknown'}</td>
+                        <td>${device.ip || 'N/A'}</td>
+                        <td>${device.mac || 'N/A'}</td>
+                        <td>${device.type || 'Unknown'}</td>
+                        <td>${device.signal || 'N/A'}</td>
+                        <td><span style="color: ${device.status?.includes('Active') ? '#00ff88' : '#ffaa00'}">${device.status || 'Unknown'}</span></td>
+                    </tr>
+                `).join('');
+            } else {
+                devicesBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No devices found</td></tr>';
+            }
+
+            // Update nearby networks
+            const nearbyContainer = document.getElementById('nearbyNetworks');
+            if (data.nearby_networks && data.nearby_networks.length > 0) {
+                nearbyContainer.innerHTML = data.nearby_networks.map(network => {
+                    const signalVal = parseInt(network.signal) || -100;
+                    const signalBars = Math.max(1, Math.ceil((100 + signalVal) / 20));
+                    const riskClass = network.risk === 'low' ? 'risk-low' : network.risk === 'medium' ? 'risk-medium' : 'risk-high';
+                    
+                    return `
+                        <div class="network-card">
+                            <div class="network-card-header">
+                                <h3>${network.ssid || 'Hidden Network'}</h3>
+                                <div class="signal-strength">
+                                    ${[...Array(5)].map((_, i) => `
+                                        <div class="signal-bar ${i < signalBars ? 'active' : ''}" style="height: ${(i + 1) * 8}px"></div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">MAC Address</div>
+                                    <div class="info-value">${network.mac || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Channel</div>
+                                    <div class="info-value">${network.channel || 'N/A'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Signal Strength</div>
+                                    <div class="info-value">${network.signal || 'N/A'} dBm</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Est. Distance</div>
+                                    <div class="info-value">${network.distance || 'Unknown'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Security</div>
+                                    <div class="info-value">${network.security || 'Unknown'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Encryption</div>
+                                    <div class="info-value">${network.encryption || 'None'}</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <span class="risk-level ${riskClass}">
+                                    Risk Level: ${(network.risk || 'medium').toUpperCase()}
+                                    ${network.risk === 'high' ? ' ⚠️ Vulnerable to attacks' : 
+                                      network.risk === 'medium' ? ' ⚡ Outdated security' : 
+                                      ' ✓ Well secured'}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                nearbyContainer.innerHTML = '<div class="loading">No nearby networks found</div>';
+            }
+
+            // Update channel heatmap
+            updateChannelHeatmap(data.nearby_networks || []);
+        }
+
+        function updateChannelHeatmap(networks) {
+            const channelGraph = document.getElementById('channelGraph');
+            const channels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            const channelUsage = {};
+            
+            channels.forEach(ch => channelUsage[ch] = 0);
+            networks.forEach(net => {
+                const ch = parseInt(net.channel);
+                if (ch >= 1 && ch <= 11) {
+                    channelUsage[ch]++;
+                }
+            });
+            
+            const maxUsage = Math.max(...Object.values(channelUsage), 1);
+            
+            channelGraph.innerHTML = channels.map(ch => {
+                const height = (channelUsage[ch] / maxUsage) * 100 || 10;
+                return `
+                    <div class="channel-bar" style="height: ${height}%" title="Channel ${ch}: ${channelUsage[ch]} networks">
+                        <div class="channel-label">${ch}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize dashboard
+        async function initDashboard() {
+            console.log('Initializing WIFITexp Dashboard...');
+            const data = await fetchData();
+            if (data) {
+                updateDashboard(data);
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        function startAutoRefresh() {
+            autoRefreshInterval = setInterval(async () => {
+                console.log('Auto-refreshing...');
+                const data = await fetchData();
+                if (data) {
+                    updateDashboard(data);
+                }
+            }, 30000);
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initDashboard();
+            startAutoRefresh();
+        });
+    </script>
+</body>
+</html>
